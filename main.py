@@ -4,14 +4,18 @@ import relogio_botao as rb
 import camera_ia as cam
 import servo
 import strain_gage as sg
+import datetime
 import globals
-# import RPi.GPIO as GPIO
 
 #------------------MAIN----------------------
 if __name__ == "__main__":
     #Inicializa as variaveis globais
     globals.eventoAlimentar = threading.Event()
     globals.eventoLigarCamera = threading.Event()
+    
+    globals.horaAlimentar = datetime.time(15, 33)
+
+    globals.mutexHora = threading.Lock()
 
     #Instancia as classes
     c_mqtt = mqtt.Mqtt()
@@ -25,6 +29,7 @@ if __name__ == "__main__":
     t_relogioBotao  = threading.Thread(target=c_relogioBotao.thread_relogio_botao, name = 'relogio_botao')
     t_cameraIA = threading.Thread(target=c_cameraIA.thread_camera_ia, name='camera_ia')
 
+    t_mqtt.start()
     t_relogioBotao.start()
     t_cameraIA.start()
 

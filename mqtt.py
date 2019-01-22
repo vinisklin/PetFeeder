@@ -1,6 +1,8 @@
 import threading
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
+import datetime
+import globals
 
 class Mqtt(threading.Thread):
 
@@ -11,10 +13,16 @@ class Mqtt(threading.Thread):
         client.subscribe("TccUtfFinal")
 
     def on_message(self, client, userdata, msg):
-        print('Recebeu msg')
 
-        if msg.payload == "Hello":
-            pass
+        #Recebeu nova hora de servir (72 = H)
+        if msg.payload[0] == 72:
+            #Escreve a hora recebida (-48 eh pq o valor ta em ASCII)
+            hora = (msg.payload[1] - 48) * 10 + (msg.payload[2] - 48)
+            minuto = (msg.payload[3] - 48) * 10 + (msg.payload[4] - 48)
+            with globals.mutexHora:
+                globals.horaAlimentar = datetime.time(hora, minuto)
+                print("Nova hora de servir: " + str(globals.horaAlimentar))
+
 
     def thread_mqtt(self):
         # inicializa MQTT:

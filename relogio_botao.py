@@ -4,7 +4,6 @@ import datetime
 # import RPi.GPIO as GPIO
 import globals
 
-horaAlimentar = datetime.time(15, 33)
 botaoPin = 10
 
 class Relogio_botao(threading.Thread):
@@ -26,8 +25,10 @@ class Relogio_botao(threading.Thread):
             print(horaAtual)
 
             #Verifica se esta na hora de alimentar
-            if ((horaAlimentar.hour == horaAtual.hour) and \
-            (horaAlimentar.minute == horaAtual.minute)):
-                globals.eventoAlimentar.set()
+            with globals.mutexHora:
+                if ((globals.horaAlimentar.hour == horaAtual.hour) and \
+                (globals.horaAlimentar.minute == horaAtual.minute)):
+                    #Envia sinal para main ativar as outras threads
+                    globals.eventoAlimentar.set()
 
-            time.sleep(20) # 60. Esta 5 apenas p teste
+            time.sleep(60) # 60. Esta 5 apenas p teste
