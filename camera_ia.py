@@ -27,8 +27,8 @@ class Camera_ia(threading.Thread):
             while not(reconheceuPet) and numTentativas > 0:
                       
                 camera.start_preview()
-                time.sleep(2)
-                camera.capture(img_path)
+                time.sleep(1)
+                camera.capture(img_path, resize=(500,281))
                 camera.stop_preview()
 
                 img = image.load_img(img_path, target_size=(150, 150))
@@ -43,6 +43,7 @@ class Camera_ia(threading.Thread):
                 if pred[0] >= 0.8: 
                     print('I am {:.2%} sure this is a Cat'.format(pred[0][0]))
                     reconheceuPet = True
+                    globals.eventoEnviarImg.set()
 
                 numTentativas -= 1
 

@@ -9,11 +9,19 @@ import globals
 
 #------------------MAIN----------------------
 if __name__ == "__main__":
+    #Le variaveis salvas em arquivo para inicializacao
+    file = open('/home/pi/Downloads/Imagens/memory.txt','r')
+    h = int(file.readline())
+    m = int(file.readline())
+    file.close()
+    
     #Inicializa as variaveis globais
     globals.eventoAlimentar = threading.Event()
     globals.eventoLigarCamera = threading.Event()
+    globals.eventoEnviarImg = threading.Event()
     
-    globals.horaAlimentar = datetime.time(15, 33)
+    globals.horaAlimentar = datetime.time(h, m)
+    print(globals.horaAlimentar)
 
     globals.mutexHora = threading.Lock()
 
