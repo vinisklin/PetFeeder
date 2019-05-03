@@ -30,5 +30,6 @@ class Relogio_botao(threading.Thread):
                 (globals.horaAlimentar.minute == horaAtual.minute)):
                     #Envia sinal para main ativar as outras threads
                     globals.eventoAlimentar.set()
+                    print('Hora do rango')
 
             time.sleep(60) # 60. Esta 5 apenas p teste

@@ -20,11 +20,11 @@ class Camera_ia(threading.Thread):
         print('Modelo carregado')
 
         while True:
-            globals.eventoLigarCamera.wait()
+            # Só executa se a porcao ja estiver sido servida
+            globals.eventoPorcaoServida.wait()
 
-            reconheceuPet = False
-            numTentativas = 10
-            while not(reconheceuPet) and numTentativas > 0:
+            poteCheio = True
+            while poteCheio:
                       
                 camera.start_preview()
                 time.sleep(1)
@@ -35,16 +35,15 @@ class Camera_ia(threading.Thread):
                 img_tensor = image.img_to_array(img)                    # (height, width, channels)
                 img_tensor = np.expand_dims(img_tensor, axis=0)         # (1, height, width, channels), add a dimension because the model expects this shape: (batch_size, height, width, channels)
                 img_tensor /= 255.
-
                 
                 pred = model.predict(img_tensor)
                 print(pred)
                 
                 if pred[0] >= 0.8: 
                     print('I am {:.2%} sure this is a Cat'.format(pred[0][0]))
-                    reconheceuPet = True
+                    poteCheio = False
                     globals.eventoEnviarImg.set()
+                    
+                time.sleep(5)
 
-                numTentativas -= 1
-
-            globals.eventoLigarCamera.clear()
+            globals.eventoPorcaoServida.clear()

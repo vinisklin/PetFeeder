@@ -11,16 +11,19 @@ import globals
 if __name__ == "__main__":
     #Le variaveis salvas em arquivo para inicializacao
     file = open('/home/pi/Downloads/Imagens/memory.txt','r')
+    porcao = int(file.readline())
     h = int(file.readline())
     m = int(file.readline())
     file.close()
     
     #Inicializa as variaveis globais
     globals.eventoAlimentar = threading.Event()
-    globals.eventoLigarCamera = threading.Event()
     globals.eventoEnviarImg = threading.Event()
-    
-    globals.horaAlimentar = datetime.time(h, m)
+    globals.eventoPorcaoServida = threading.Event()
+
+    globals.pesoPorcao = porcao 
+##    globals.horaAlimentar = datetime.time(h, m)
+    globals.horaAlimentar = datetime.time(19, 46) #Apenas para testar
     print(globals.horaAlimentar)
 
     globals.mutexHora = threading.Lock()
@@ -50,8 +53,6 @@ if __name__ == "__main__":
         t_servo = threading.Thread(target=c_servo.thread_servo, name='servo')
         t_strainGage = threading.Thread(target=c_strainG.thread_strain_gage, name='strain_gage')
 
-        #Liga a camera
-        globals.eventoLigarCamera.set()
 
         t_servo.start()
         t_strainGage.start()

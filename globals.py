@@ -1,8 +1,9 @@
 #--------GLOBAL VARIABLES------------
 global eventoAlimentar
-global eventoLigarCamera
 global eventoEnviarImg
+global eventoPorcaoServida
 
+global pesoPorcao
 global horaAlimentar
 
 global mutexHora
