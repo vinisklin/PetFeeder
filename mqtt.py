@@ -66,12 +66,8 @@ class Mqtt(threading.Thread):
 
         while True:
             if globals.eventoNotificarPoteVazio.is_set():
-                #Prepara e envia a imagem para o aplicativo
                 print("Notificando para o usuario que o pote esta vazio")
-                foto = open('/home/pi/Downloads/Imagens/imgTest.jpg',"rb")
-                imageString = foto.read()
-                byteArray = bytes(imageString)
-                publish.single("PetFeeder/foto", byteArray, hostname='iot.eclipse.org')
+                publish.single("PetFeeder/poteVazio", "1", hostname='iot.eclipse.org')
                 globals.eventoNotificarPoteVazio.clear()
 
             while globals.eventoAlimentar.is_set():
