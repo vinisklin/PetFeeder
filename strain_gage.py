@@ -17,22 +17,30 @@ class Strain_gage(threading.Thread):
         hx.set_offset(8249789.25)
         hx.set_scale(16498.83 / 76)
 
-        pesoAtual = 0
+        peso = 0
 
-        while pesoAtual < globals.pesoPorcao:
-            pesoAtual = hx.get_grams() - 125.31 ##125.31: peso do pote
-            print('O peso eh de: ', max(0, pesoAtual))
+        with globals.mutexPorcao:
+            pesoDaPorcao = globals.pesoPorcao
+
+        while peso < pesoDaPorcao:
+            peso = hx.get_grams() - 125.31 ##125.31: peso do pote
+            print('O peso eh de: ', max(0, peso))
+        
+            with globals.mutexPorcao:
+                globals.pesoAtual = peso
 
             hx.power_down()
             time.sleep(.001)
             hx.power_up()
 
-            time.sleep(0.2)
+            time.sleep(0.5)
 
+        print('Porcao servida')
         GPIO.cleanup()
 
         #Envia sinal para parar o motor e ativar camera
         globals.eventoPorcaoServida.set()
         
-
+        time.sleep(3)
+        globals.pesoAtual = 0 
             

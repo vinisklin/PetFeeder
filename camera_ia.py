@@ -16,7 +16,7 @@ class Camera_ia(threading.Thread):
         print('Thread camera iniciada')
         
         
-        model = load_model("model.h5")
+        model = load_model("seventh_try.h5")
         print('Modelo carregado')
 
         while True:
@@ -39,10 +39,10 @@ class Camera_ia(threading.Thread):
                 pred = model.predict(img_tensor)
                 print(pred)
                 
-                if pred[0] >= 0.8: 
-                    print('I am {:.2%} sure this is a Cat'.format(pred[0][0]))
+                if pred[0][0] >= 0.8: 
+                    print('I am {:.2%} sure this is empty'.format(pred[0][0]))
                     poteCheio = False
-                    globals.eventoEnviarImg.set()
+                    globals.eventoNotificarPoteVazio.set()
                     
                 time.sleep(5)
 
