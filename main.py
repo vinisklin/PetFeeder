@@ -26,8 +26,8 @@ if __name__ == "__main__":
 
     globals.pesoAtual = 0
     globals.pesoPorcao = porcao 
-##    globals.horaAlimentar = datetime.time(h, m)
-    globals.horaAlimentar = datetime.time(18, 24) #Apenas para testar
+    globals.horaAlimentar = datetime.time(h, m)
+##    globals.horaAlimentar = datetime.time(18, 36) #Apenas para testar
     print(globals.horaAlimentar)
 
     globals.mutexHora = threading.Lock()

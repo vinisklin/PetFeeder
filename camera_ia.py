@@ -24,9 +24,12 @@ class Camera_ia(threading.Thread):
             globals.eventoPorcaoServida.wait()
 
             poteCheio = True
+            
             while poteCheio:
-                      
+
+                camera.resolution = (1280, 720)
                 camera.start_preview()
+                camera.brightness = 60
                 time.sleep(1)
                 camera.capture(img_path, resize=(500,281))
                 camera.stop_preview()
@@ -45,5 +48,6 @@ class Camera_ia(threading.Thread):
                     globals.eventoNotificarPoteVazio.set()
                     
                 time.sleep(5)
+                poteCheio = False
 
             globals.eventoPorcaoServida.clear()

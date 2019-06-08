@@ -32,4 +32,4 @@ class Relogio_botao(threading.Thread):
                     globals.eventoAlimentar.set()
                     print('Hora do rango')
 
-            time.sleep(60) # 60. Esta 5 apenas p teste
+            time.sleep(60)

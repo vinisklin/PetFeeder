@@ -3,8 +3,6 @@ import RPi.GPIO as GPIO
 import time
 import globals
 
-pin = 21
-
 class Motor(threading.Thread):
 
     def __init__(self):
@@ -15,18 +13,16 @@ class Motor(threading.Thread):
         GPIO.output(pin, GPIO.HIGH)
 
     def thread_motor(self):
-        print('Thread motor iniciada')        
+        print('Thread motor iniciada')
+        pin = 21
         
-##        #Ativa o motor
-##        GPIO.output(pin, GPIO.LOW)
-##
-##        #Deixa o motor ativado enqto nao chegar no peso
-##        globals.eventoPorcaoServida.wait()
-
         while not globals.eventoPorcaoServida.is_set():
+            GPIO.setmode(GPIO.BCM)
+            GPIO.setup(pin, GPIO.OUT)
             #Ativa o motor
             GPIO.output(pin, GPIO.LOW)
-            time.sleep(1)
+            time.sleep(0.75)
+            #Desativa
             GPIO.output(pin, GPIO.HIGH)
             time.sleep(1)            
 

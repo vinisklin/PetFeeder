@@ -74,7 +74,6 @@ class Mqtt(threading.Thread):
                 #Fica enviando o peso que está sendo servido para o app
                 with globals.mutexPorcao:
                     publish.single("PetFeeder/peso", globals.pesoAtual, hostname='iot.eclipse.org')
-##                    print('Publicou: ', globals.pesoAtual)
                 time.sleep(0.5)
             time.sleep(2)
             

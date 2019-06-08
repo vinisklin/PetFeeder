@@ -14,8 +14,8 @@ class Strain_gage(threading.Thread):
     def thread_strain_gage(self):
         print('Thread strain gage iniciada')
 
-        hx.set_offset(8249789.25)
-        hx.set_scale(16498.83 / 76)
+        hx.set_offset(8241335.0)
+        hx.set_scale(206.07129798903108)
 
         peso = 0
 
@@ -23,8 +23,8 @@ class Strain_gage(threading.Thread):
             pesoDaPorcao = globals.pesoPorcao
 
         while peso < pesoDaPorcao:
-            peso = hx.get_grams() - 125.31 ##125.31: peso do pote
-            print('O peso eh de: ', max(0, peso))
+            peso = max(0, (hx.get_grams() - 135)) ##135 peso do pote
+            print('O peso eh de: ', peso)
         
             with globals.mutexPorcao:
                 globals.pesoAtual = peso
