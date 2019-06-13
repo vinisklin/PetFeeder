@@ -20,7 +20,7 @@ class Camera_ia(threading.Thread):
         print('Modelo carregado')
 
         while True:
-            # Só executa se a porcao ja estiver sido servida
+            # So executa se a porcao ja estiver sido servida
             globals.eventoPorcaoServida.wait()
 
             poteCheio = True
@@ -48,6 +48,5 @@ class Camera_ia(threading.Thread):
                     globals.eventoNotificarPoteVazio.set()
                     
                 time.sleep(5)
-                poteCheio = False
-
+                
             globals.eventoPorcaoServida.clear()
